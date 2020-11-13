@@ -2,10 +2,13 @@
  * A grid game based on finding the exit. Multiple obstacles to avoid
  * 
  * @author (Matt Bloemke) 
- * @version (4.0, March 28th)
+ * @version (4.0, 11/7/2020)
  */
 //imports modules
+//when a player gets teleported, teleport them to an empty space
+//change intro: 1 player, 2 playere, <2 players
 import java.util.*;
+import javax.swing.*;
 public class gridadventure
 {
     public static void main (String[] args)
@@ -20,6 +23,12 @@ public class gridadventure
         ArrayList<Guard> guardList = new ArrayList<Guard>();
         ArrayList<Player> scoreList = new ArrayList<Player>();
         ArrayList<Goal> goalList = new ArrayList<Goal>();
+        
+        JFrame frame = new JFrame();
+        frame.setSize(400,500);
+        frame.setLayout(null);
+        frame.setVisible(true);
+        
         
         boolean[][] coordinates = new boolean[10][];
         for (int x = 0; x<10; x++)
@@ -94,22 +103,29 @@ public class gridadventure
             while (true){
                 int x = coordGen.nextInt(10);
                 int y = coordGen.nextInt(10);
+                //Creates a new player in the list with all attributes needed to play
                 if (coordinates[x][y]==true){
                     playerList.add(new Player(x, y,inputScan.next() , 100, 0, "Living", "N/A"));
+                    
                     break;
                 }
             }
         }
         //prints the names of all contestents for intro
-        for (int pCount = playerList.size();pCount >= 1; pCount--){
-            if (pCount-1 == 0){
-                System.out.print("and " + playerList.get(pCount-1).getName() + ", ");
-                break;
+        
+        if (inputPlayer > 1){
+            for (int pCount = playerList.size();pCount >= 1; pCount--){
+                if (pCount-1 == 0){
+                    System.out.print("and " + playerList.get(pCount-1).getName() + ", ");
+                    System.out.println("you are time travellers, and teleported back in time and are being chased by the Mafia.");
+                    break;
+                }
+                System.out.print(playerList.get(pCount-1).getName()+", ");
             }
-            System.out.print(playerList.get(pCount-1).getName()+", ");
+        } else {
+            System.out.println(playerList.get(0).getName() + ", you are a time traveller, and teleported back in time and are being chased by the Mafia."); 
         }
         
-        System.out.println("you are time travellers, and teleported back in time and are being chased by the Mafia.");
         System.out.println("You have been trapped in a labyrinth, and are being hunted.");
         System.out.println("You need to move around and find the most pieces of the teleporter.");
         System.out.println("Be careful, there are many traps, and a few guards still looking for you");
